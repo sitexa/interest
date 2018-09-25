@@ -147,3 +147,9 @@ Http状态码
 ![这里写图片描述](https://github.com/smallsnail-wh/images/blob/master/card%20-%20menage.png)
 **邮件管理**
 ![这里写图片描述](https://github.com/smallsnail-wh/images/blob/master/email%20-%20Home.png)
+
+
+###
+
+强制更新修复了一些库
+npm audit fix --force
