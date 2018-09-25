@@ -83,6 +83,8 @@ spring boot项目,与我的另外一个前端项目[interest-web](https://github
  **缓存配置：** 
  
   配置redis，且redis服务必须开启。
+  
+  ~/Downloads/redis-4.0.11/redis.conf ==> password=123456
  
 ## 注：
 
