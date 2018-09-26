@@ -39,8 +39,7 @@ public class MyAuthenticationToken extends AbstractAuthenticationToken {
 	 * @param principal
 	 * @param authorities
 	 */
-	public MyAuthenticationToken(Object principal, 
-			Collection<? extends GrantedAuthority> authorities) {
+	public MyAuthenticationToken(Object principal, Collection<? extends GrantedAuthority> authorities) {
 		super(authorities);
 		this.principal = principal;
 		super.setAuthenticated(true); // must use super, as we override
