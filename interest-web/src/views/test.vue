@@ -1,8 +1,9 @@
 <style type="text/css">
-    .test{
-        margin: 20px 20px 20px 20px;     
+    .test {
+        margin: 20px 20px 20px 20px;
     }
-    .test Button{
+
+    .test Button {
         margin-bottom: 10px;
     }
 </style>
@@ -14,20 +15,22 @@
     </div>
 </template>
 <script>
+    /* eslint-disable quotes */
+
     export default {
-        data(){
+        data() {
             return {
                 code: null
             }
         },
-        mounted(){
+        mounted() {
             this.code = this.$route.query.code;
             console.log(this.$route.query);
-            if(this.code !=null && this.code != ''){
+            if (this.code != null && this.code != '') {
                 this.axios({
                     method: 'post',
                     url: '/authentication/github',
-                    params:{
+                    params: {
                         "code": this.code
                     },
                     auth: {
@@ -36,17 +39,15 @@
                     }
                 }).then(function (response) {
                     console.log(response.data);
-                    localStorage.setItem("currentUser_token",response.data.access_token);
-                    localStorage.setItem("currentUser_refresh_token",response.data.refresh_token);
-                    this.axios.defaults.headers.common['Authorization'] = 'bearer '+ localStorage.getItem("currentUser_token");
-                    this.$router.push({ path: '/page/home' }) ;
+                    localStorage.setItem("currentUser_token", response.data.access_token);
+                    localStorage.setItem("currentUser_refresh_token", response.data.refresh_token);
+                    this.axios.defaults.headers.common['Authorization'] = 'bearer ' + localStorage.getItem("currentUser_token");
+                    this.$router.push({path: '/page/home'});
                 }.bind(this)).catch(function (error) {
                     alter(error);
                 }.bind(this));
             }
         },
-        methods: {
-            
-        }   
+        methods: {}
     };
 </script>

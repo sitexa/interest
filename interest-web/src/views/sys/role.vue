@@ -9,19 +9,22 @@
                 </li>
                 <li>
                     <div style="padding: 10px 0;">
-                        <Table border :columns="columns1" :data="data1" :height="400" @on-selection-change="s=>{change(s)}" @on-row-dblclick="s=>{dblclick(s)}"></Table>
-                    </div> 
+                        <Table border :columns="columns1" :data="data1" :height="400"
+                               @on-selection-change="s=>{change(s)}" @on-row-dblclick="s=>{dblclick(s)}"></Table>
+                    </div>
                 </li>
                 <li>
                     <div style="text-align: right;">
-                        <Page :total="total" :page-size="pageInfo.pageSize" show-elevator show-total @on-change="e=>{pageSearch(e)}"></Page>
-                    </div>  
+                        <Page :total="total" :page-size="pageInfo.pageSize" show-elevator show-total
+                              @on-change="e=>{pageSearch(e)}"></Page>
+                    </div>
                 </li>
             </ul>
         </div>
-        <!--添加modal-->  
-        <Modal :mask-closable="false" :visible.sync="newModal" :loading = "loading" v-model="newModal" width="600" title="新建" @on-ok="newOk('roleNew')" @on-cancel="cancel()">
-            <Form ref="roleNew" :model="roleNew" :rules="ruleNew" :label-width="80" >
+        <!--添加modal-->
+        <Modal :mask-closable="false" :visible.sync="newModal" :loading="loading" v-model="newModal" width="600"
+               title="新建" @on-ok="newOk('roleNew')" @on-cancel="cancel()">
+            <Form ref="roleNew" :model="roleNew" :rules="ruleNew" :label-width="80">
                 <Row>
                     <Col span="12">
                         <Form-item label="角色:" prop="role">
@@ -29,20 +32,21 @@
                         </Form-item>
                     </Col>
                     <Col span="12">
-                         <Form-item label="角色名:" prop="name">
+                        <Form-item label="角色名:" prop="name">
                             <Input v-model="roleNew.name" style="width: 204px"/>
                         </Form-item>
                     </Col>
                 </Row>
-               
+
                 <Form-item label="描述:" prop="describe">
-                     <Input v-model="roleNew.describe" type="textarea" :autosize="{minRows: 2,maxRows: 5}"></Input>
+                    <Input v-model="roleNew.describe" type="textarea" :autosize="{minRows: 2,maxRows: 5}"></Input>
                 </Form-item>
             </Form>
         </Modal>
-        <!--修改modal-->  
-        <Modal :mask-closable="false" :visible.sync="modifyModal" :loading = "loading" v-model="modifyModal" width="600" title="修改" @on-ok="modifyOk('roleModify')" @on-cancel="cancel()">
-            <Form ref="roleModify" :model="roleModify" :rules="ruleModify" :label-width="80" >
+        <!--修改modal-->
+        <Modal :mask-closable="false" :visible.sync="modifyModal" :loading="loading" v-model="modifyModal" width="600"
+               title="修改" @on-ok="modifyOk('roleModify')" @on-cancel="cancel()">
+            <Form ref="roleModify" :model="roleModify" :rules="ruleModify" :label-width="80">
                 <Row>
                     <Col span="12">
                         <Form-item label="角色:" prop="role">
@@ -50,7 +54,7 @@
                         </Form-item>
                     </Col>
                     <Col span="12">
-                         <Form-item label="角色名:" prop="name">
+                        <Form-item label="角色名:" prop="name">
                             <Input v-model="roleModify.name" style="width: 204px"/>
                         </Form-item>
                     </Col>
@@ -59,81 +63,84 @@
                             <Input v-model="roleModify.name" style="width: 204px"/>
                         </Form-item> -->
                 <Form-item label="描述:" prop="describe">
-                     <Input v-model="roleModify.describe" type="textarea" :autosize="{minRows: 2,maxRows: 5}"></Input>
+                    <Input v-model="roleModify.describe" type="textarea" :autosize="{minRows: 2,maxRows: 5}"></Input>
                 </Form-item>
             </Form>
         </Modal>
         <!-- 配置权限 -->
-        <Modal v-model="settingModal"  width="400" title="配置权限" @on-ok="settingOk()" @on-cancel="cancel()" :mask-closable="false">
+        <Modal v-model="settingModal" width="400" title="配置权限" @on-ok="settingOk()" @on-cancel="cancel()"
+               :mask-closable="false">
             <Row>
-                <Col span="24"><Table border :columns="columns2" :data="data2"></Table></Col>
+                <Col span="24">
+                    <Table border :columns="columns2" :data="data2"></Table>
+                </Col>
             </Row>
         </Modal>
     </div>
 </template>
 <script>
     export default {
-        data () {
+        data() {
             return {
                 /*选择的数量*/
-                count:null,
+                count: null,
                 /*选中的组数据*/
-                groupId:null,
+                groupId: null,
                 /*新建modal的显示参数*/
-                newModal:false,
+                newModal: false,
                 /*修改modal的显示参数*/
-                modifyModal:false,
+                modifyModal: false,
                 /*权限modal的显示参数*/
-                settingModal:false,
+                settingModal: false,
                 /*分页total属性绑定值*/
-                total:0,
+                total: 0,
                 /*loading*/
                 loading: true,
                 /*pageInfo实体*/
-                pageInfo:{
-                    page:0,
-                    pageSize:10
+                pageInfo: {
+                    page: 0,
+                    pageSize: 10
                 },
                 /*role实体*/
-                role:{                             
-                    id:null,
-                    role:null,
-                    name:null,
-                    modules:null,
-                    describe:null
+                role: {
+                    id: null,
+                    role: null,
+                    name: null,
+                    modules: null,
+                    describe: null
                 },
                 /*用于添加的role实体*/
-                roleNew:{
-                    id:null,
-                    role:null,
-                    name:null,
-                    modules:null,
-                    describe:null
+                roleNew: {
+                    id: null,
+                    role: null,
+                    name: null,
+                    modules: null,
+                    describe: null
                 },
                 /*用于修改的role实体*/
-                roleModify:{
-                    id:null,
-                    role:null,  
-                    name:null,
-                    modules:null,
-                    describe:null
+                roleModify: {
+                    id: null,
+                    role: null,
+                    name: null,
+                    modules: null,
+                    describe: null
                 },
                 /*新建验证*/
-                ruleNew:{
+                ruleNew: {
                     role: [
-                        { type:'string',required: true, message: '输入角色', trigger: 'blur' }
+                        {type: 'string', required: true, message: '输入角色', trigger: 'blur'}
                     ],
                     name: [
-                        { type:'string',required: true, message: '输入角色名', trigger: 'blur' }
+                        {type: 'string', required: true, message: '输入角色名', trigger: 'blur'}
                     ]
                 },
                 /*修改验证*/
-                ruleModify:{
+                ruleModify: {
                     role: [
-                        { type:'string',required: true, message: '输入角色', trigger: 'blur' }
+                        {type: 'string', required: true, message: '输入角色', trigger: 'blur'}
                     ],
                     name: [
-                        { type:'string',required: true, message: '输入角色名', trigger: 'blur' }
+                        {type: 'string', required: true, message: '输入角色名', trigger: 'blur'}
                     ]
                 },
                 /*表显示字段*/
@@ -155,23 +162,24 @@
                         title: '描述',
                         key: 'describe'
                     },
-                    {   title: '操作', 
-                        key: 'action', 
-                        width: 180, 
-                        align: 'center', 
-                        render: (h, params) => { 
-                            return h('div', [ h('Button', 
-                                { 
-                                    props: { icon:'gear-b' },
-                                    style: {border:'none',background:'none' }, 
-                                    on: { 
-                                        click: () => { 
+                    {
+                        title: '操作',
+                        key: 'action',
+                        width: 180,
+                        align: 'center',
+                        render: (h, params) => {
+                            return h('div', [h('Button',
+                                {
+                                    props: {icon: 'gear-b'},
+                                    style: {border: 'none', background: 'none'},
+                                    on: {
+                                        click: () => {
                                             this.setting(params.row);
-                                        } 
-                                    } 
-                                }, ) 
-                            ]); 
-                        } 
+                                        }
+                                    }
+                                },)
+                            ]);
+                        }
                     }
                 ],
                 /*表数据*/
@@ -186,21 +194,21 @@
                         title: '操作',
                         align: 'center',
                         render: (h, params) => {
-                            return h('div',[
-                                h('i-switch',{
-                                    attrs:{
-                                        'value' : params.row.value 
+                            return h('div', [
+                                h('i-switch', {
+                                    attrs: {
+                                        'value': params.row.value
                                     },
-                                    on:{
-                                        'on-change':(val)=>{
-                                            var i = this.moduleArr.indexOf(params.row.id+'');
-                                            if(val){
-                                                if(i == -1){
-                                                    this.moduleArr.push(params.row.id+'');
+                                    on: {
+                                        'on-change': (val) => {
+                                            var i = this.moduleArr.indexOf(params.row.id + '');
+                                            if (val) {
+                                                if (i == -1) {
+                                                    this.moduleArr.push(params.row.id + '');
                                                 }
-                                            }else{
-                                                if(i != -1){
-                                                    this.moduleArr.splice(i,1);
+                                            } else {
+                                                if (i != -1) {
+                                                    this.moduleArr.splice(i, 1);
                                                 }
                                             }
                                         }
@@ -213,33 +221,33 @@
                 /*表数据*/
                 data2: [],
                 /*临时存储权限的数组*/
-                moduleArr:[],
+                moduleArr: [],
                 /*二级菜单列表*/
-                submenusList:[]
+                submenusList: []
             }
         },
-        mounted(){
+        mounted() {
             /*页面初始化调用方法*/
             this.getTable({
-                "pageInfo":this.pageInfo
+                "pageInfo": this.pageInfo
             });
             this.axios({
-              method: 'get',
-              url: '/menus/submenus'
+                method: 'get',
+                url: '/menus/submenus'
             }).then(function (response) {
                 this.submenusList = response.data;
             }.bind(this)).catch(function (error) {
-              alert(error);
+                alert(error);
             });
         },
-        methods:{
+        methods: {
             /*pageInfo实体初始化*/
-            initPageInfo(){
+            initPageInfo() {
                 this.pageInfo.page = 0;
                 this.pageInfo.pageSize = 10;
             },
             /*role实体初始化*/
-            initRole(){
+            initRole() {
                 this.role.id = null;
                 this.role.role = null;
                 this.role.name = null;
@@ -247,7 +255,7 @@
                 this.role.describe = null;
             },
             /*roleNew实体初始化*/
-            initRoleNew(){
+            initRoleNew() {
                 this.roleNew.id = null;
                 this.roleNew.role = null;
                 this.roleNew.name = null;
@@ -255,7 +263,7 @@
                 this.roleNew.describe = null;
             },
             /*roleModify实体初始化*/
-            initRoleModify(){
+            initRoleModify() {
                 this.roleModify.id = null;
                 this.roleModify.role = null;
                 this.roleModify.name = null;
@@ -263,7 +271,7 @@
                 this.roleModify.describe = null;
             },
             /*roleNew设置*/
-            roleSet(e){
+            roleSet(e) {
                 this.role.id = e.id;
                 this.role.role = e.role;
                 this.role.name = e.name;
@@ -271,7 +279,7 @@
                 this.role.describe = e.describe;
             },
             /*roleNew设置*/
-            roleNewSet(e){
+            roleNewSet(e) {
                 this.roleNew.id = e.id;
                 this.roleNew.role = e.role;
                 this.roleNew.name = e.name;
@@ -279,7 +287,7 @@
                 this.roleNew.describe = e.describe;
             },
             /*roleModify设置*/
-            roleModifySet(e){
+            roleModifySet(e) {
                 this.roleModify.id = e.id;
                 this.roleModify.role = e.role;
                 this.roleModify.name = e.name;
@@ -289,28 +297,28 @@
             /*得到表数据*/
             getTable(e) {
                 this.axios({
-                  method: 'get',
-                  url: '/roles',
-                  params: {
-                    'page':e.pageInfo.page,
-                    'pageSize':e.pageInfo.pageSize
-                  }
+                    method: 'get',
+                    url: '/roles',
+                    params: {
+                        'page': e.pageInfo.page,
+                        'pageSize': e.pageInfo.pageSize
+                    }
                 }).then(function (response) {
-                    this.data1=response.data.data;
-                    this.total=response.data.totalCount;
+                    this.data1 = response.data.data;
+                    this.total = response.data.totalCount;
                 }.bind(this)).catch(function (error) {
-                  alert(error);
+                    alert(error);
                 });
             },
             /*分页点击事件*/
-            pageSearch(e){
-                this.pageInfo.page = e-1;
-                this.getTable({  
-                    "pageInfo":this.pageInfo
+            pageSearch(e) {
+                this.pageInfo.page = e - 1;
+                this.getTable({
+                    "pageInfo": this.pageInfo
                 });
             },
             /*新建点击触发事件*/
-            openNewModal(){
+            openNewModal() {
                 this.newModal = true;
                 this.initRoleNew();
                 this.data1.sort();
@@ -318,7 +326,7 @@
                 this.groupId = null;
             },
             /*新建modal的newOk点击事件*/
-            newOk (roleNew) { 
+            newOk(roleNew) {
                 this.$refs[roleNew].validate((valid) => {
                     if (valid) {
                         this.initRole();
@@ -330,14 +338,14 @@
                         }).then(function (response) {
                             this.initRoleNew();
                             this.getTable({
-                                "pageInfo":this.pageInfo
+                                "pageInfo": this.pageInfo
                             });
                             this.$Message.info('新建成功');
                         }.bind(this)).catch(function (error) {
                             alert(error);
-                        });  
+                        });
                         this.newModal = false;
-                    }else {
+                    } else {
                         setTimeout(() => {
                             this.loading = false;
                             this.$nextTick(() => {
@@ -348,35 +356,35 @@
                 })
             },
             /*点击修改时判断是否只选择一个*/
-            openModifyModal(){
-                if(this.count > 1 || this.count < 1){
-                    this.modifyModal= false; 
-                    this.$Message.warning('请至少选择一项(且只能选择一项)');  
-                }else{
+            openModifyModal() {
+                if (this.count > 1 || this.count < 1) {
+                    this.modifyModal = false;
+                    this.$Message.warning('请至少选择一项(且只能选择一项)');
+                } else {
                     this.modifyModal = true;
                 }
             },
             /*修改modal的modifyOk点击事件*/
-             modifyOk (roleModify) { 
+            modifyOk(roleModify) {
                 this.$refs[roleModify].validate((valid) => {
                     if (valid) {
                         this.initRole();
                         this.roleSet(this.roleModify);
                         this.axios({
-                          method: 'put',
-                          url: '/roles/'+this.role.id,
-                          data: this.role
+                            method: 'put',
+                            url: '/roles/' + this.role.id,
+                            data: this.role
                         }).then(function (response) {
                             this.initRoleModify();
                             this.getTable({
-                                "pageInfo":this.pageInfo
+                                "pageInfo": this.pageInfo
                             });
                             this.$Message.info('修改成功');
                         }.bind(this)).catch(function (error) {
-                          alert(error);
-                        });  
+                            alert(error);
+                        });
                         this.modifyModal = false;
-                    }else {
+                    } else {
                         this.$Message.error('表单验证失败!');
                         setTimeout(() => {
                             this.loading = false;
@@ -388,24 +396,24 @@
                 })
             },
             /*表格中按钮点击事件*/
-            setting(e){
+            setting(e) {
                 this.data1.sort();
                 this.settingModal = true;
                 this.roleModifySet(e);
-                if(e.modules == null || e.modules == ''){
+                if (e.modules == null || e.modules == '') {
                     this.moduleArr = [];
-                }else{
+                } else {
                     this.moduleArr = e.modules.split(";");
                 }
                 var data2Temp = [];
                 for (var i = 0; i < this.submenusList.length; i++) {
-                    if(this.moduleArr.indexOf(this.submenusList[i].id+'') == -1){
+                    if (this.moduleArr.indexOf(this.submenusList[i].id + '') == -1) {
                         data2Temp.push({
                             'id': this.submenusList[i].id,
                             'name': this.submenusList[i].name,
                             'value': false
                         });
-                    }else{
+                    } else {
                         data2Temp.push({
                             'id': this.submenusList[i].id,
                             'name': this.submenusList[i].name,
@@ -416,62 +424,62 @@
                 this.data2 = data2Temp;
             },
             /*配置权限的settingOk点击事件*/
-            settingOk(){
+            settingOk() {
                 var temp = "";
-                for(var i in this.moduleArr){
-                    if(this.moduleArr[i] != '' && this.moduleArr != null){
-                        temp = temp + this.moduleArr[i]+";";
+                for (var i in this.moduleArr) {
+                    if (this.moduleArr[i] != '' && this.moduleArr != null) {
+                        temp = temp + this.moduleArr[i] + ";";
                     }
                 }
                 this.roleModify.modules = temp;
                 this.initRole();
                 this.roleSet(this.roleModify);
                 this.axios({
-                  method: 'put',
-                  url: '/roles/'+this.role.id,
-                  data: this.role
+                    method: 'put',
+                    url: '/roles/' + this.role.id,
+                    data: this.role
                 }).then(function (response) {
                     this.initRoleModify();
                     this.getTable({
-                        "pageInfo":this.pageInfo
+                        "pageInfo": this.pageInfo
                     });
                     this.$Message.info('配置成功');
                 }.bind(this)).catch(function (error) {
-                  alert(error);
+                    alert(error);
                 });
             },
             /*modal的cancel点击事件*/
-            cancel () {
+            cancel() {
                 this.$Message.info('点击了取消');
             },
             /*table选择后触发事件*/
-            change(e){
-                if(e.length==1){
+            change(e) {
+                if (e.length == 1) {
                     this.roleModifySet(e['0']);
                 }
-                this.setGroupId(e);              
+                this.setGroupId(e);
             },
             /*通过选中的行设置groupId的值*/
-            setGroupId(e){
-                this.groupId=[];
-                this.count=e.length;
+            setGroupId(e) {
+                this.groupId = [];
+                this.count = e.length;
                 for (var i = 0; i <= e.length - 1; i++) {
                     this.groupId.push(e[i].id);
                 }
             },
             /*删除table中选中的数据*/
-            del(){
-                if(this.groupId!=null && this.groupId!=""){
+            del() {
+                if (this.groupId != null && this.groupId != "") {
                     this.axios({
-                      method: 'delete',
-                      url: '/roles',
-                      data: this.groupId
+                        method: 'delete',
+                        url: '/roles',
+                        data: this.groupId
                     }).then(function (response) {
                         this.getTable({
-                            "pageInfo":this.pageInfo
+                            "pageInfo": this.pageInfo
                         });
-                        this.groupId=null;
-                        this.count=0;
+                        this.groupId = null;
+                        this.count = 0;
                         this.$Message.info('删除成功');
                     }.bind(this)).catch(function (error) {
                         alert(error);
@@ -479,7 +487,7 @@
                 }
             },
             /*表格中双击事件*/
-            dblclick(e){
+            dblclick(e) {
                 this.roleModifySet(e);
                 this.modifyModal = true;
                 this.data1.sort();
